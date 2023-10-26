@@ -1,0 +1,21 @@
+body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+}
+
+#alphabet-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  z-index: 1;
+}
+
+.block {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
