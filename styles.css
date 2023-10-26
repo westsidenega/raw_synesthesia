@@ -3,10 +3,18 @@ body {
   margin: 0;
   padding: 0;
 }
-
-#alphabet-bar {
+#escribir {
   position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  color: black;
+  z-index: 2;
+}
+#alphabet-bar {
+  position: fixed;
+  top: 150;
   left: 0;
   width: 100%;
   background-color: black;
@@ -18,9 +26,4 @@ body {
   width: 20px;
   height: 20px;
   display: inline-block;
-}
-
-.input_button {
-  width: 20px;
-  height: 20px;
 }
