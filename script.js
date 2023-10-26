@@ -43,30 +43,53 @@ const colorMapping = {
   ' ': '0,0,0'  // Espacio
 };
 
-// Rellenar la barra del abecedario
-for (let letter in colorMapping) {
-  if (isNaN(parseInt(letter))) { // Solo para las letras del abecedario
-    const letterDiv = `<span style="font-weight: bold; color: rgb(${colorMapping[letter]});">${letter}</span>`;
-    alphabetBar.innerHTML += letterDiv;
-  }
+const getShape = (char) => {
+  if (char.match(/[A-ZÑ]/)) return 'block';
+  if (char.match(/[a-zñ]/)) return 'circle';
+  if (char.match(/[0-9]/)) return 'triangle';
+  return 'block';
+};
+
+// Primero, rellenar la barra con las letras del abecedario
+for (let character in colorMapping) {
+    if (isNaN(parseInt(character))) { // Solo para las letras del abecedario
+        const letterDiv = `<span style="font-weight: bold; color: rgb(${colorMapping[character]});">${character}</span>`;
+        alphabetBar.innerHTML += letterDiv;
+    }
+}
+
+// Luego, rellenar la barra con los números
+for (let character in colorMapping) {
+    if (!isNaN(parseInt(character))) { // Solo para los números
+        const numberDiv = `<span style="font-weight: bold; color: rgb(${colorMapping[character]});">${character}</span>`;
+        alphabetBar.innerHTML += numberDiv;
+    }
 }
 
 fileInput.addEventListener('change', event => {
   const file = event.target.files[0];
   const reader = new FileReader();
+  
+  // Tu lógica para manejar la lectura del archivo irá aquí.
+  reader.addEventListener('load', event => {
+    output.innerHTML = ''; // Limpiar el output
+    const text = event.target.result;for (const char of text) {
+  const upperChar = char.toUpperCase();
+  const color = colorMapping[upperChar] || '0,0,0';
+  const shape = getShape(char);
+  const div = document.createElement('div');
+  div.className = shape;
 
-  reader.onload = function(e) {
-    const text = e.target.result.toUpperCase();
-    let html = '';
+  if (shape === 'triangle') {
+    div.style.borderBottomColor = `rgb(${color})`;
+  } else {
+    div.style.backgroundColor = `rgb(${color})`;
+  }
 
-    for (let i = 0; i < text.length; i++) {
-      const character = text[i];
-      const color = colorMapping[character] || '0,0,0'; // Default to black if the character is not mapped
-      html += `<div class="block" style="background-color: rgb(${color})"></div>`;
-    }
+  output.appendChild(div);
+}
 
-    output.innerHTML = html;
-  };
-
+  });
+  
   reader.readAsText(file);
 });
